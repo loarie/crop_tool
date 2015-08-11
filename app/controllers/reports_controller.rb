@@ -7,9 +7,9 @@ class ReportsController < ApplicationController
     @reports = Report.where(crop: params[:crop], statistic: params[:statistic])
     
     @values = @reports.map(&:value)
-    @mean = CropModule::Maths.mean(@values)
+    @mean = ::CropModule::Maths.mean(@values)
     @mean = 0 if @mean.nan?
-    @sd = CropModule::Maths.standard_deviation(@values)
+    @sd = ::CropModule::Maths.standard_deviation(@values)
     @sd = 0 if @sd.nan?
   end
 
