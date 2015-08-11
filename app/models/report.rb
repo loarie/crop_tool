@@ -1,4 +1,4 @@
 class Report < ActiveRecord::Base
-  include ::CropModule::Maths
-  #require Rails.root.join('lib/crop_module')
+  #include ::CropModule::Maths
+  require Rails.root.join('lib/crop_module/maths')
 end
