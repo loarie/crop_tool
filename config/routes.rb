@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   root 'reports#index'
   
   post 'twilio/voice' => 'twilio#voice'
+  post 'notifications/notify' => 'notifications#notify'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
