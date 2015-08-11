@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'twilio-ruby', '~> 3.12'
+gem 'twilio-ruby'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
