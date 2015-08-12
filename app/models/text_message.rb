@@ -8,18 +8,18 @@ class TextMessage < ActiveRecord::Base
       #TextMessage.create(to: from, from: phone_number, body: new_sentence)
       code = body.split(",")
       error ||= true unless code.count >= 2
-      error ||= true unless ["Maize","Millet"].include? code[0]
-      error ||= true unless ["Yield","Planting","Harvest"].include? code[1]
+      error ||= true unless ["maize","millet"].include? code[0]
+      error ||= true unless ["yield","planting","harvest"].include? code[1]
       error ||= true unless code.count == 2 || (code.count == 3 && code[2].to_f == 0.0)
       
       if error
         new_sentence = "Error #{body}"
       else
         if code.count == 2 #request
-          new_sentence = "The mean"
+          new_sentence = "The mean #{body}"
         else #report
           #save the record
-          new_sentence = "Thank you"
+          new_sentence = "Thank you #{body}"
         end
       end
       TextMessage.create(to: from, from: phone_number, body: new_sentence)
