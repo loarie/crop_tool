@@ -3,8 +3,25 @@ class TextMessage < ActiveRecord::Base
 
   def process
     if to == "+"+phone_number.to_s
-      new_sentence = body.split.map{ |x| translate(x) }
-      new_sentence = new_sentence.join(" ")
+      #new_sentence = body.split.map{ |x| translate(x) }
+      #new_sentence = new_sentence.join(" ")
+      #TextMessage.create(to: from, from: phone_number, body: new_sentence)
+      code = body.split(",")
+      error ||= true unless code.count >= 2
+      error ||= true unless ["Maize","Millet"].include? code[0]
+      error ||= true unless ["Yield","Planting","Harvest"].include? code[1]
+      error ||= true unless code.count == 2 || (code.count == 3 && code[2].to_f == 0.0)
+      
+      if error
+        new_sentence = "Error"
+      else
+        if code.count == 2 #request
+          new_sentence = "The mean"
+        else #report
+          #save the record
+          new_sentence = "Thank you"
+        end
+      end
       TextMessage.create(to: from, from: phone_number, body: new_sentence)
     else
       send_outgoing
