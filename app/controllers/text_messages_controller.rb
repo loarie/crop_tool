@@ -2,7 +2,7 @@ class TextMessagesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
     def create
-      puts params[:FromZip]
+      #puts params[:FromZip]
       TextMessage.create(message_attributes)
       head :ok
     end
