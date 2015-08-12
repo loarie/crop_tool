@@ -1,28 +1,41 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Functional Spec for the Crop Tool
 
-Things you may want to cover:
+SMS interface:
 
-* Ruby version
+Use case 1:
+Farmer texts (415) 936-7075 with a message formatted as “crop,statistic” as in “Maize,Yield”
+The server responds with the best estimate for this as in “Our yield estimate for maize is 2250 +/- 957 kg/ha”
 
-* System dependencies
+To do:
+Planting date: June 20th +/- 4 days
+Harvest date: June 20th +/- 4 days
 
-* Configuration
+Use case 2:
+Farmer texts the (415) 936-7075  with a message formatted as “crop,statistic,number” as in “Maize,Yield,12”
+The server updates the model, then responds with “Thank you for submitting your request of 
 
-* Database creation
+To do:
+“Maize Planting June 20”
+“Maize Harvest June 20”
 
-* Database initialization
+Else:
+otherwise the server responds with an error
 
-* How to run the test suite
+Web interface: 
 
-* Services (job queues, cache servers, search engines, etc.)
+Use case 1:
+Farmer selects yield and crop as in “Maize” and “Yield”
+Server responds with the estimate
 
-* Deployment instructions
+To do:
+Handle dates
+Visualize model
 
-* ...
+Use case 2:
+Farmer selects New Report
+Creates an estimate
 
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+To do:
+Make pretty
