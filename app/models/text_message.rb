@@ -26,7 +26,7 @@ class TextMessage < ActiveRecord::Base
   end
   
   def stats(arr)
-    @reports = Report.where(crop: arr[0], statistic: arr[1])
+    @reports = Report.where(crop: arr[0].capitalize, statistic: arr[1].capitalize)
     @values = @reports.map(&:value)
     @mean = ::CropModule::Maths.mean(@values)
     @mean = 0 if @mean.nan?
