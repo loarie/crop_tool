@@ -13,7 +13,7 @@ class TextMessage < ActiveRecord::Base
       error ||= true unless code.count == 2 || (code.count == 3 && code[2].to_f == 0.0)
       
       if error
-        new_sentence = "Error"
+        new_sentence = "Error #{body}"
       else
         if code.count == 2 #request
           new_sentence = "The mean"
