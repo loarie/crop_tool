@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150811173950) do
+ActiveRecord::Schema.define(version: 20150812042725) do
 
   create_table "reports", force: :cascade do |t|
     t.float    "value"
@@ -19,6 +19,14 @@ ActiveRecord::Schema.define(version: 20150811173950) do
     t.string   "statistic"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "text_messages", force: :cascade do |t|
+    t.string   "to",         limit: 12
+    t.string   "from",       limit: 12
+    t.string   "body",                  null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
 end

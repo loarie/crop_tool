@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   
   post 'twilio/voice' => 'twilio#voice'
   post 'notifications/notify' => 'notifications#notify'
+  post 'text', to: 'text_messages#create'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
