@@ -10,7 +10,7 @@ class TextMessage < ActiveRecord::Base
       error ||= true unless code.count >= 2
       error ||= true unless ["maize","millet"].include? code[0]
       error ||= true unless ["yield","planting","harvest"].include? code[1]
-      error ||= true unless code.count == 2 || (code.count == 3 && code[2].to_f == 0.0)
+      error ||= true unless (code.count == 2 || (code.count == 3 && code[2].to_f != 0.0))
       
       if error
         new_sentence = "Error #{body}"
