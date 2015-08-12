@@ -3,9 +3,6 @@ class TextMessage < ActiveRecord::Base
 
   def process
     if to == "+"+phone_number.to_s
-      #new_sentence = body.split.map{ |x| translate(x) }
-      #new_sentence = new_sentence.join(" ")
-      #TextMessage.create(to: from, from: phone_number, body: new_sentence)
       code = body.split(",")
       error ||= true unless code.count >= 2
       error ||= true unless ["maize","millet"].include? code[0]
@@ -18,29 +15,13 @@ class TextMessage < ActiveRecord::Base
         if code.count == 2 #request
           new_sentence = "The mean #{body}"
         else #report
-          #save the record
+          Report.create(value: code[2].to_f, crop: code[0].capitalize, statistic: code[1].capitalize)
           new_sentence = "Thank you #{body}"
         end
       end
       TextMessage.create(to: from, from: phone_number, body: new_sentence)
     else
       send_outgoing
-    end
-  end
-  
-  def translate(str)
-    alpha = ('a'..'z').to_a
-    vowels = %w[a e i o u]
-    consonants = alpha - vowels
-
-    if vowels.include?(str[0])
-      str + 'ay'
-    elsif consonants.include?(str[0]) && consonants.include?(str[1])
-      str[2..-1] + str[0..1] + 'ay'
-    elsif consonants.include?(str[0])
-      str[1..-1] + str[0] + 'ay'
-    else
-      str
     end
   end
   
