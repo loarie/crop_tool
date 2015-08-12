@@ -2,7 +2,7 @@ class TextMessage < ActiveRecord::Base
   after_create :process
 
   def process
-    if to == phone_number
+    if to == "+"+phone_number.to_s
       new_sentence = body.split.map{ |x| translate(x) }
       new_sentence = new_sentence.join(" ")
       TextMessage.create(to: from, from: phone_number, body: new_sentence)
