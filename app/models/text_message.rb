@@ -33,9 +33,8 @@ class TextMessage < ActiveRecord::Base
     model_params = {beta: [34213.331619,-3195.578803,183.478251,64.716467,-1.463032], sigma2: 146643.8}
     beta = model_params[:beta]
     @sd = Math.sqrt(model_params[:sigma2])
-    x_vals = [1, climate[:temp], climate[:prec], climate[:temp] ** 2, climate[:prec] ** 2]
-    vec_prod = (0...beta.count).inject(0) {|r, i| r + beta[i]*x_vals[i]}
-    @mean = ::CropModule::Maths.sum(vec_prod)
+    x_vals = [1.0, climate[:temp], climate[:prec], climate[:temp] ** 2, climate[:prec] ** 2]
+    @mean = (0...beta.count).inject(0) {|r, i| r + beta[i]*x_vals[i]}
     return "#{(@mean).round} +/- #{(@sd).round} kg/ha"
     
     #@reports = Report.where(crop: arr[0].capitalize, statistic: arr[1].capitalize)
