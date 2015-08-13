@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  country: MyString
+  crop: MyString
+  statistic: MyString
+  estimates: MyString
+
+two:
+  country: MyString
+  crop: MyString
+  statistic: MyString
+  estimates: MyString
