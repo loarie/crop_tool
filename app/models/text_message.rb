@@ -24,7 +24,7 @@ class TextMessage < ActiveRecord::Base
           x = Net::HTTP.post_form(URI.parse('http://104.236.132.146/ocpu/library/cropmodel/R/crop_function'), params)
           code = x.body.split("/")[3]
           x = Net::HTTP.get(URI.parse("http://104.236.132.146/ocpu/tmp/#{code}/stdout/text"))
-          JSON.parse x.split("\"")[1].gsub("beta","\"beta\"").gsub("sigma2","\"sigma2\"") 
+          puts JSON.parse x.split("\"")[1].gsub("beta","\"beta\"").gsub("sigma2","\"sigma2\"") 
         end
       end
       TextMessage.create(to: from, from: phone_number, body: new_sentence)
