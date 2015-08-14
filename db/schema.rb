@@ -11,15 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813192336) do
+ActiveRecord::Schema.define(version: 20150814223312) do
 
   create_table "model_parameters", force: :cascade do |t|
     t.string   "country"
     t.string   "crop"
     t.string   "statistic"
-    t.string   "estimates"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "estimated_params"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "priors"
   end
 
   create_table "reports", force: :cascade do |t|
@@ -28,6 +29,13 @@ ActiveRecord::Schema.define(version: 20150813192336) do
     t.string   "statistic"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "country"
+    t.string   "city"
+    t.string   "lat"
+    t.string   "lon"
+    t.string   "temp"
+    t.string   "prec"
+    t.string   "identity"
   end
 
   create_table "text_messages", force: :cascade do |t|
