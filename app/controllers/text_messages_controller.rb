@@ -1,6 +1,6 @@
 class TextMessagesController < ApplicationController
   require 'json'
-  require 'rinruby'
+  
   skip_before_action :verify_authenticity_token
 
     def create
