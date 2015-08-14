@@ -96,7 +96,7 @@ class TextMessage < ActiveRecord::Base
     mp.save
   end
   
-  def get_coords
+  def get_coords(city)
     google_key = Rails.application.secrets.google_key
     url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{city}&region=#{COUNTRY_HASH[:senegal][:go]}&key=#{google_key}"
     json_string = open(url).read
@@ -116,13 +116,13 @@ class TextMessage < ActiveRecord::Base
     parsed_json = JSON.parse(json_string)
     t_high = parsed_json['trip']['temp_high']['avg']["C"]
     t_low = parsed_json['trip']['temp_low']['avg']["C"]
-    month_global_temp = ( t_high.to_f + t_low.to_f ) / 2
-    month_global_prec = parsed_json['trip']['precip']['avg']['cm'].to_f * 10
+    month_local_temp = ( t_high.to_f + t_low.to_f ) / 2
+    month_local_prec = parsed_json['trip']['precip']['avg']['cm'].to_f * 10
     
-    month_global_temp = get_wb_clim(var = "tas", country = :senegal, span = "month", ind = 8)
-    month_global_prec = get_wb_clim(var = "pr", country = :senegal, span = "month", ind = 8)
-    year_global_temp = get_wb_clim(var = "tas", country = :senegal, span = "year", ind = 2012)
-    year_global_prec = get_wb_clim(var = "pr", country = :senegal, span = "year", ind = 2012)
+    month_global_temp = tm.get_wb_clim(var = "tas", country = :senegal, span = "month", ind = 8)
+    month_global_prec = tm.get_wb_clim(var = "pr", country = :senegal, span = "month", ind = 8)
+    year_global_temp = tm.get_wb_clim(var = "tas", country = :senegal, span = "year", ind = 2012)
+    year_global_prec = tm.get_wb_clim(var = "pr", country = :senegal, span = "year", ind = 2012)
     
     year_local_temp = month_local_temp * year_global_temp / month_global_temp
     year_local_prec = month_local_prec * year_global_prec / month_global_prec
