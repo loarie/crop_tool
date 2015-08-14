@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814223312) do
+ActiveRecord::Schema.define(version: 20150814235050) do
 
   create_table "model_parameters", force: :cascade do |t|
     t.string   "country"
@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 20150814223312) do
     t.float    "value"
     t.string   "crop"
     t.string   "statistic"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.string   "country"
     t.string   "city"
     t.string   "lat"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20150814223312) do
     t.string   "temp"
     t.string   "prec"
     t.string   "identity"
+    t.string   "destination"
   end
 
   create_table "text_messages", force: :cascade do |t|

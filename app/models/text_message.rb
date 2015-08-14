@@ -23,15 +23,15 @@ class TextMessage < ActiveRecord::Base
           new_sentence = "Our #{code[1]} estimate for #{code[0]} is #{stats(code)}"
           
         else #reporting data
-          crop = code[0].capitalize
-          stat = code[1].capitalize
+          crop = code[0]
+          stat = code[1]
           city = code[2]
           val = code[3].to_f
           
           coords = get_coords(city)
           climate = get_climate(coords["lat"], coords["lon"])
     
-          Report.create(country: COUNTRY_HASH[:senegal][:pretty], city: city, lat: coords["lat"], lon: coords["lon"], crop: crop, statistic: stat, value: val, temp: climate["temp"], prec: climate["prec"], identity: to)
+          Report.create(country: COUNTRY_HASH[:senegal][:pretty], city: city.capitalize, lat: coords[:lat], lon: coords[:lon], crop: crop.capitalize, statistic: stat.capitalize, value: val, temp: climate[:temp], prec: climate[:prec], identity: from, destination: to)
           new_sentence = "Thank you for submitting your request of #{body}"
           
           update_model(COUNTRY_HASH[:senegal][:pretty], crop, stat)
@@ -74,18 +74,18 @@ class TextMessage < ActiveRecord::Base
   
   def update_model(country, crop, stat)
     #get_priors
-    mp = ModelParameter.where(country: country, crop: crop, statistic: stat).first
-    prirors = mp.priors
-    b0 = priors[:b0].to_s.gsub("[","c(").gsub("]",")")
+    mp = ModelParameter.where(country: country, crop: crop.capitalize, statistic: stat.capitalize).first
+    priors = JSON.parse mp.priors
+    b0 = priors["b0"].to_s.gsub("[","c(").gsub("]",")")
     
     #get_data
-    data = Report.where(country: country, crop: crop, statistic: stat)
+    data = Report.where(country: country, crop: crop.capitalize, statistic: stat.capitalize).all
     y = data.map(&:value).to_s.gsub("[","c(").gsub("]",")")
     x1 = data.map(&:temp).to_s.gsub("[","c(").gsub("]",")")
-    x2 = data.map(&:precip).to_s.gsub("[","c(").gsub("]",")")
+    x2 = data.map(&:prec).to_s.gsub("[","c(").gsub("]",")")
     
     #update the model
-    input_params = {'b0' => b0, 'Vbcoef' => priors[:Vbcoef], 's1' => priors[:s1], 's2' => priors[:s2], 'y' => y, 'x1' => x1, 'x2' => x2}
+    input_params = {'b0' => b0, 'Vbcoef' => priors["Vbcoef"], 's1' => priors["s1"], 's2' => priors["s2"], 'y' => y, 'x1' => x1, 'x2' => x2}
     ocpu_call = Net::HTTP.post_form(URI.parse('http://104.236.132.146/ocpu/library/cropmodel/R/crop_function'), input_params)
     ocpu_dir = ocpu_call.body.split("/")[3]
     ocpu_response = Net::HTTP.get(URI.parse("http://104.236.132.146/ocpu/tmp/#{ocpu_dir}/stdout/text"))
@@ -101,7 +101,8 @@ class TextMessage < ActiveRecord::Base
     url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{city}&region=#{COUNTRY_HASH[:senegal][:go]}&key=#{google_key}"
     json_string = open(url).read
     parsed_json = JSON.parse(json_string)
-    parsed_json["results"][0]["geometry"]["location"]
+    coords = parsed_json["results"][0]["geometry"]["location"]
+    return {lat: coords["lat"], lon: coords["lng"]}
   end
   
   def get_climate(lat, lon)
