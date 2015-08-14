@@ -1,6 +1,5 @@
 class TextMessage < ActiveRecord::Base
   require 'open-uri'
-  require 'json'
   
   after_create :process
 
@@ -21,6 +20,11 @@ class TextMessage < ActiveRecord::Base
           Report.create(value: code[2].to_f, crop: code[0].capitalize, statistic: code[1].capitalize)
           new_sentence = "Thank you for submitting your request of #{body}"
           #update R model
+          params = {'b0' => 'c(34213,-3196,183,65,-1)', 'Vbcoef' => '1000', 's1' => '2', 's2' => '146644', 'y' => 'c(300,300)', 'x1' => 'c(30,30)', 'x2' => 'c(34,34)'}
+          x = Net::HTTP.post_form(URI.parse('http://104.236.132.146/ocpu/library/cropmodel/R/crop_function'), params)
+          code = x.body.split("/")[3]
+          x = Net::HTTP.get(URI.parse("http://104.236.132.146/ocpu/tmp/#{code}/stdout/text"))
+          JSON.parse x.split("\"")[1].gsub("beta","\"beta\"").gsub("sigma2","\"sigma2\"") 
         end
       end
       TextMessage.create(to: from, from: phone_number, body: new_sentence)
