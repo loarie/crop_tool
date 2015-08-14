@@ -16,15 +16,20 @@ class TextMessage < ActiveRecord::Base
       else
         if code.count == 2 #request
           new_sentence = "Our #{code[1]} estimate for #{code[0]} is #{stats(code)}"
-        else #report
+        else #record
           Report.create(value: code[2].to_f, crop: code[0].capitalize, statistic: code[1].capitalize)
           new_sentence = "Thank you for submitting your request of #{body}"
           #update R model
-          params = {'b0' => 'c(34213,-3196,183,65,-1)', 'Vbcoef' => '1000', 's1' => '2', 's2' => '146644', 'y' => 'c(300,300)', 'x1' => 'c(30,30)', 'x2' => 'c(34,34)'}
-          x = Net::HTTP.post_form(URI.parse('http://104.236.132.146/ocpu/library/cropmodel/R/crop_function'), params)
-          code = x.body.split("/")[3]
-          x = Net::HTTP.get(URI.parse("http://104.236.132.146/ocpu/tmp/#{code}/stdout/text"))
-          puts JSON.parse x.split("\"")[1].gsub("beta","\"beta\"").gsub("sigma2","\"sigma2\"") 
+          
+          #ToDo: get proper input_params
+          
+          input_params = {'b0' => 'c(34213,-3196,183,65,-1)', 'Vbcoef' => '1000', 's1' => '2', 's2' => '146644', 'y' => 'c(300,300)', 'x1' => 'c(30,30)', 'x2' => 'c(34,34)'}
+          ocpu_call = Net::HTTP.post_form(URI.parse('http://104.236.132.146/ocpu/library/cropmodel/R/crop_function'), input_params)
+          code = ocpu_call.body.split("/")[3]
+          ocpu_response = Net::HTTP.get(URI.parse("http://104.236.132.146/ocpu/tmp/#{code}/stdout/text"))
+          output_params = ocpu_response.split("\"")[1].gsub("beta","\"beta\"").gsub("sigma2","\"sigma2\"")
+          #save the params          
+          ModelParameter.create(country: "Senegal", crop: "Millet", statistic: "Yield", estimates: output_params)
         end
       end
       TextMessage.create(to: from, from: phone_number, body: new_sentence)
