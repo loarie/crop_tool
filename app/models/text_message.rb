@@ -119,10 +119,10 @@ class TextMessage < ActiveRecord::Base
     month_local_temp = ( t_high.to_f + t_low.to_f ) / 2
     month_local_prec = parsed_json['trip']['precip']['avg']['cm'].to_f * 10
     
-    month_global_temp = tm.get_wb_clim(var = "tas", country = :senegal, span = "month", ind = 8)
-    month_global_prec = tm.get_wb_clim(var = "pr", country = :senegal, span = "month", ind = 8)
-    year_global_temp = tm.get_wb_clim(var = "tas", country = :senegal, span = "year", ind = 2012)
-    year_global_prec = tm.get_wb_clim(var = "pr", country = :senegal, span = "year", ind = 2012)
+    month_global_temp = get_wb_clim(var = "tas", country = :senegal, span = "month", ind = 8)
+    month_global_prec = get_wb_clim(var = "pr", country = :senegal, span = "month", ind = 8)
+    year_global_temp = get_wb_clim(var = "tas", country = :senegal, span = "year", ind = 2012)
+    year_global_prec = get_wb_clim(var = "pr", country = :senegal, span = "year", ind = 2012)
     
     year_local_temp = month_local_temp * year_global_temp / month_global_temp
     year_local_prec = month_local_prec * year_global_prec / month_global_prec
