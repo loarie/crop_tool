@@ -54,13 +54,13 @@ class TextMessage < ActiveRecord::Base
     climate = get_climate(coords["lat"], coords["lon"])
     
     #get the model params
-    model_params = ModelParameter.where(country: COUNTRY_HASH[:senegal][:pretty], crop: crop, statistic: stat).first
+    model_params = ModelParameter.where(country: COUNTRY_HASH[:senegal][:pretty], crop: crop.capitalize, statistic: stat.capitalize).first
     
     #estimate values based on location and model params
     beta = (JSON.parse model_params.estimated_params)["beta"]
     x_vals = [1.0, climate[:temp], climate[:prec], climate[:temp] ** 2, climate[:prec] ** 2]
     @mean = (0...beta.count).inject(0) {|r, i| r + beta[i]*x_vals[i]}
-    @sd = Math.sqrt( (JSON.parse model_params.estimates)["sigma2"])
+    @sd = Math.sqrt( (JSON.parse model_params.estimated_params)["sigma2"])
     return "#{(@mean).round} +/- #{(@sd).round} kg/ha"
   end
   
@@ -105,28 +105,31 @@ class TextMessage < ActiveRecord::Base
   end
   
   def get_climate(lat, lon)
-    wunderground_key = Rails.application.secrets.wunderground_key
-    json_string = open("http://api.wunderground.com/api/#{wunderground_key}/geolookup/q/#{lat},#{lon}.json").read
-    parsed_json = JSON.parse(json_string)
-    country = parsed_json["location"]["country_name"]
-    city = parsed_json["location"]["city"].gsub(" ","_")
+    #wunderground_key = Rails.application.secrets.wunderground_key
+    #json_string = open("http://api.wunderground.com/api/#{wunderground_key}/geolookup/q/#{lat},#{lon}.json").read
+    #parsed_json = JSON.parse(json_string)
+    #country = parsed_json["location"]["country_name"]
+    #city = parsed_json["location"]["city"].gsub(" ","_")
     
-    url = "http://api.wunderground.com/api/#{wunderground_key}/planner_08010830/q/#{country}/#{city}.json"
-    json_string = open(url).read
-    parsed_json = JSON.parse(json_string)
-    t_high = parsed_json['trip']['temp_high']['avg']["C"]
-    t_low = parsed_json['trip']['temp_low']['avg']["C"]
-    month_local_temp = ( t_high.to_f + t_low.to_f ) / 2
-    month_local_prec = parsed_json['trip']['precip']['avg']['cm'].to_f * 10
+    #url = "http://api.wunderground.com/api/#{wunderground_key}/planner_08010830/q/#{country}/#{city}.json"
+    #json_string = open(url).read
+    #parsed_json = JSON.parse(json_string)
+    #t_high = parsed_json['trip']['temp_high']['avg']["C"]
+    #t_low = parsed_json['trip']['temp_low']['avg']["C"]
+    #month_local_temp = ( t_high.to_f + t_low.to_f ) / 2
+    #month_local_prec = parsed_json['trip']['precip']['avg']['cm'].to_f * 10
     
-    month_global_temp = get_wb_clim(var = "tas", country = :senegal, span = "month", ind = 8)
-    month_global_prec = get_wb_clim(var = "pr", country = :senegal, span = "month", ind = 8)
+    #month_global_temp = get_wb_clim(var = "tas", country = :senegal, span = "month", ind = 8)
+    #month_global_prec = get_wb_clim(var = "pr", country = :senegal, span = "month", ind = 8)
     year_global_temp = get_wb_clim(var = "tas", country = :senegal, span = "year", ind = 2012)
     year_global_prec = get_wb_clim(var = "pr", country = :senegal, span = "year", ind = 2012)
+    return {temp: year_global_temp, prec: year_global_prec}
     
-    year_local_temp = month_local_temp * year_global_temp / month_global_temp
-    year_local_prec = month_local_prec * year_global_prec / month_global_prec
-    return {temp: year_local_temp, prec: year_local_prec}
+    #year_local_temp = month_local_temp * year_global_temp / month_global_temp
+    #year_local_prec = month_local_prec * year_global_prec / month_global_prec
+    #return {temp: year_local_temp, prec: year_local_prec}
+    
+    ####Old method of assembling each month - too many API calls
     # t = 0
     # t_ind = 0
     # p = 0
