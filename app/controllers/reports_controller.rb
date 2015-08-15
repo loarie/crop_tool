@@ -4,13 +4,17 @@ class ReportsController < ApplicationController
   # GET /reports
   # GET /reports.json
   def index
-    @reports = Report.where(crop: params[:crop], statistic: params[:statistic])
+    crop = params[:crop]
+    stat = params[:statistic]
     
-    @values = @reports.map(&:value)
-    @mean = ::CropModule::Maths.mean(@values)
-    @mean = 0 if @mean.nan?
-    @sd = ::CropModule::Maths.standard_deviation(@values)
-    @sd = 0 if @sd.nan?
+    @reports = Report.where(crop: crop, statistic: stat)
+    @estimate = TextMessage.stats([crop,stat,"zagne"])
+    
+    #@values = @reports.map(&:value)
+    #@mean = ::CropModule::Maths.mean(@values)
+    #@mean = 0 if @mean.nan?
+    #@sd = ::CropModule::Maths.standard_deviation(@values)
+    #@sd = 0 if @sd.nan?
   end
 
   # GET /reports/1
