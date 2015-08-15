@@ -29,7 +29,7 @@ class TextMessage < ActiveRecord::Base
           val = code[3].to_f
           
           coords = get_coords(city)
-          climate = get_climate(coords["lat"], coords["lon"])
+          climate = get_climate(coords[:lat], coords[:lon])
     
           Report.create(country: COUNTRY_HASH[:senegal][:pretty], city: city.capitalize, lat: coords[:lat], lon: coords[:lon], crop: crop.capitalize, statistic: stat.capitalize, value: val, temp: climate[:temp], prec: climate[:prec], identity: from, destination: to)
           new_sentence = "Thank you for submitting your request of #{body}"
