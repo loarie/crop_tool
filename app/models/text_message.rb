@@ -161,7 +161,7 @@ class TextMessage < ActiveRecord::Base
     
     #Get the climate data
     coords = TextMessage.get_coords(city)
-    climate = TextMessage.get_climate(coords["lat"], coords["lon"])
+    climate = TextMessage.get_climate(coords[:lat], coords[:lon])
     
     #get the model params
     model_params = ModelParameter.where(country: COUNTRY_HASH[:senegal][:pretty], crop: crop.capitalize, statistic: stat.capitalize).first
