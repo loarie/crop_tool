@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150815001256) do
+ActiveRecord::Schema.define(version: 20150815043032) do
+
+  create_table "climates", force: :cascade do |t|
+    t.float    "lat"
+    t.float    "lon"
+    t.integer  "temp"
+    t.integer  "prec"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "model_parameters", force: :cascade do |t|
     t.string   "country"
