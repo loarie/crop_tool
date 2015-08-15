@@ -3,7 +3,24 @@ class TextMessage < ActiveRecord::Base
   
   after_create :process
 
-  COUNTRY_HASH = {senegal: {wb: 'SEN', go: 'sn', pretty: 'Senegal'}}
+  COUNTRY_HASH = {
+    senegal: {wb: 'SEN', go: 'sn', pretty: 'Senegal'}
+    cabo_verde: {wb: 'CPV', go: 'cp', pretty: 'Cabo Verde'}
+    benin: {wb: 'CPV', go: 'cp', pretty: "Benin"}
+    gambia: {wb: 'CPV', go: 'cp', pretty: "Gambia"}
+    ghana: {wb: 'CPV', go: 'cp', pretty: "Ghana"}
+    guinea: {wb: 'CPV', go: 'cp', pretty: "Guinea"}
+    ivory_coast: {wb: 'CPV', go: 'cp', pretty: "Côte d'Ivoire"}
+    liberia: {wb: 'CPV', go: 'cp', pretty: "Liberia"}
+    mali: {wb: 'CPV', go: 'cp', pretty: "Mali"}
+    mauritania: {wb: 'CPV', go: 'cp', pretty: "Mauritania"}
+    niger: {wb: 'CPV', go: 'cp', pretty: "Niger"}
+    nigeria: {wb: 'CPV', go: 'cp', pretty: "Nigeria"}
+    guinea_bissau: {wb: 'CPV', go: 'cp', pretty: "Guinea-Bissau"}
+    sierra_leopne: {wb: 'CPV', go: 'cp', pretty: "Sierra Leone"}
+    togo: {wb: 'CPV', go: 'cp', pretty: "Togo"}
+    burkina_faso: {wb: 'CPV', go: 'cp', pretty: "Burkina Faso"}
+  }
   CROPS = ["Maize","Millet","Sorghum","Fonio","Cereals, nes","Potatoes","Sweet potatoes","Cassava","Sugar cane","Cow peas, dry","Pulses, nes","Cashew nuts, with shell","Nuts, nes","Groundnuts, with shell","Coconuts","Oil, palm fruit","Sesame seed","Melonseed","Seed cotton","Cabbages and other brassicas","Tomatoes","Pumpkins, squash and gourds","Eggplants (aubergines)","Onions, dry","Beans, green","Carrots and turnips","Okra","Vegetables, fresh nes","Bananas","Oranges","Watermelons","Mangoes, mangosteens, guavas","Fruit, tropical fresh nes","Fruit, fresh nes","Chillies and peppers, dry","Cereals,Total","Roots and Tubers,Total","Pulses,Total","Treenuts,Total","Oilcrops Primary","Vegetables Primary","Fibre Crops Primary","Vegetables&Melons, Total","Fruit excl Melons,Total","Citrus Fruit,Total","Coarse Grain, Total","Cereals (Rice Milled Eqv)","Oilcakes Equivalent"]
   STATISTICS = ["Yield","Planting","Harvest"]
   
@@ -31,10 +48,10 @@ class TextMessage < ActiveRecord::Base
           coords = TextMessage.get_coords(city)
           climate = TextMessage.get_climate(coords[:lat], coords[:lon])
     
-          Report.create(country: COUNTRY_HASH[:senegal][:pretty], city: city.capitalize, lat: coords[:lat], lon: coords[:lon], crop: crop.capitalize, statistic: stat.capitalize, value: val, temp: climate[:temp], prec: climate[:prec], identity: from, destination: to)
+          Report.create(country: coords[:country], city: city.capitalize, lat: coords[:lat], lon: coords[:lon], crop: crop.capitalize, statistic: stat.capitalize, value: val, temp: climate[:temp], prec: climate[:prec], identity: from, destination: to)
           new_sentence = "Thank you for submitting your request of #{body}"
           
-          update_model(COUNTRY_HASH[:senegal][:pretty], crop, stat)
+          update_model(coords[:country], crop, stat)
           
         end
       end
@@ -78,11 +95,13 @@ class TextMessage < ActiveRecord::Base
   
   def self.get_coords(city)
     google_key = Rails.application.secrets.google_key
-    url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{city}&region=#{COUNTRY_HASH[:senegal][:go]}&key=#{google_key}"
+    #url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{city}&region=#{COUNTRY_HASH[:senegal][:go]}&key=#{google_key}"
+    url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{city}&key=#{google_key}"
     json_string = open(url).read
     parsed_json = JSON.parse(json_string)
+    country = parsed_json["results"][0]["address_components"][3]["long_name"]
     coords = parsed_json["results"][0]["geometry"]["location"]
-    return {lat: coords["lat"], lon: coords["lng"]}
+    return {lat: coords["lat"], lon: coords["lng"], country: country}
   end
   
   def self.get_climate(lat, lon)
@@ -164,7 +183,7 @@ class TextMessage < ActiveRecord::Base
     climate = TextMessage.get_climate(coords[:lat], coords[:lon])
     
     #get the model params
-    model_params = ModelParameter.where(country: COUNTRY_HASH[:senegal][:pretty], crop: crop.capitalize, statistic: stat.capitalize).first
+    model_params = ModelParameter.where(country: coords[:country], crop: crop.capitalize, statistic: stat.capitalize).first
     
     #estimate values based on location and model params
     beta = (JSON.parse model_params.estimated_params)["beta"]
