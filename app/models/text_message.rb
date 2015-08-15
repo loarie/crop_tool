@@ -28,8 +28,8 @@ class TextMessage < ActiveRecord::Base
           city = code[2]
           val = code[3].to_f
           
-          coords = get_coords(city)
-          climate = get_climate(coords[:lat], coords[:lon])
+          coords = TextMessage.get_coords(city)
+          climate = TextMessage.get_climate(coords[:lat], coords[:lon])
     
           Report.create(country: COUNTRY_HASH[:senegal][:pretty], city: city.capitalize, lat: coords[:lat], lon: coords[:lon], crop: crop.capitalize, statistic: stat.capitalize, value: val, temp: climate[:temp], prec: climate[:prec], identity: from, destination: to)
           new_sentence = "Thank you for submitting your request of #{body}"
@@ -76,7 +76,7 @@ class TextMessage < ActiveRecord::Base
     mp.save
   end
   
-  def get_coords(city)
+  def self.get_coords(city)
     google_key = Rails.application.secrets.google_key
     url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{city}&region=#{COUNTRY_HASH[:senegal][:go]}&key=#{google_key}"
     json_string = open(url).read
@@ -85,7 +85,7 @@ class TextMessage < ActiveRecord::Base
     return {lat: coords["lat"], lon: coords["lng"]}
   end
   
-  def get_climate(lat, lon)
+  def self.get_climate(lat, lon)
     #wunderground_key = Rails.application.secrets.wunderground_key
     #json_string = open("http://api.wunderground.com/api/#{wunderground_key}/geolookup/q/#{lat},#{lon}.json").read
     #parsed_json = JSON.parse(json_string)
@@ -141,7 +141,7 @@ class TextMessage < ActiveRecord::Base
     # return {temp: t, prec: p}
   end
 
-  def get_wb_clim(var, country, span, ind)
+  def self.get_wb_clim(var, country, span, ind)
     url = "http://climatedataapi.worldbank.org/climateweb/rest/v1/country/cru/#{var}/#{span}/#{COUNTRY_HASH[country][:wb]}.json"
     json_string = open(url).read
     parsed_json = JSON.parse(json_string)
@@ -155,8 +155,8 @@ class TextMessage < ActiveRecord::Base
     city = arr[2]
     
     #Get the climate data
-    coords = get_coords(city)
-    climate = get_climate(coords["lat"], coords["lon"])
+    coords = TextMessage.get_coords(city)
+    climate = TextMessage.get_climate(coords["lat"], coords["lon"])
     
     #get the model params
     model_params = ModelParameter.where(country: COUNTRY_HASH[:senegal][:pretty], crop: crop.capitalize, statistic: stat.capitalize).first
