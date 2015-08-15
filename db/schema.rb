@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814235050) do
+ActiveRecord::Schema.define(version: 20150815001256) do
 
   create_table "model_parameters", force: :cascade do |t|
     t.string   "country"
@@ -31,10 +31,10 @@ ActiveRecord::Schema.define(version: 20150814235050) do
     t.datetime "updated_at",  null: false
     t.string   "country"
     t.string   "city"
-    t.string   "lat"
-    t.string   "lon"
-    t.string   "temp"
-    t.string   "prec"
+    t.float    "lat"
+    t.float    "lon"
+    t.float    "temp"
+    t.float    "prec"
     t.string   "identity"
     t.string   "destination"
   end
