@@ -4,6 +4,7 @@ class ReportsController < ApplicationController
   # GET /reports
   # GET /reports.json
   def index
+    params ||= {:crop = "Maize", :statistic = "Yield"}
     crop = params[:crop]
     stat = params[:statistic]
     
