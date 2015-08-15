@@ -5,14 +5,14 @@ class TextMessage < ActiveRecord::Base
 
   COUNTRY_HASH = {senegal: {wb: 'SEN', go: 'sn', pretty: 'Senegal'}}
   CROPS = ["Maize","Millet","Sorghum","Fonio","Cereals, nes","Potatoes","Sweet potatoes","Cassava","Sugar cane","Cow peas, dry","Pulses, nes","Cashew nuts, with shell","Nuts, nes","Groundnuts, with shell","Coconuts","Oil, palm fruit","Sesame seed","Melonseed","Seed cotton","Cabbages and other brassicas","Tomatoes","Pumpkins, squash and gourds","Eggplants (aubergines)","Onions, dry","Beans, green","Carrots and turnips","Okra","Vegetables, fresh nes","Bananas","Oranges","Watermelons","Mangoes, mangosteens, guavas","Fruit, tropical fresh nes","Fruit, fresh nes","Chillies and peppers, dry","Cereals,Total","Roots and Tubers,Total","Pulses,Total","Treenuts,Total","Oilcrops Primary","Vegetables Primary","Fibre Crops Primary","Vegetables&Melons, Total","Fruit excl Melons,Total","Citrus Fruit,Total","Coarse Grain, Total","Cereals (Rice Milled Eqv)","Oilcakes Equivalent"]
-  STATISTICS = ["yield","planting","harvest"]
+  STATISTICS = ["Yield","Planting","Harvest"]
   
   def process
     if to == "+"+phone_number.to_s
       code = body.split(",")
       error ||= true unless code.count >= 3
-      error ||= true unless CROPS.include? code[0]
-      error ||= true unless STATISTICS.include? code[1]
+      error ||= true unless CROPS.include? code[0].capitalize
+      error ||= true unless STATISTICS.include? code[1].capitalize
       error ||= true unless (code.count == 3 || (code.count == 4 && code[3].to_f != 0.0))
       
       if error
