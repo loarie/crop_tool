@@ -4,8 +4,10 @@ class ReportsController < ApplicationController
   # GET /reports
   # GET /reports.json
   def index
-    defaults = {:crop => "Maize", :statistic => "Yield"}
-    params = defaults.merge(params)
+    
+    params[:crop] ||= "Maize"
+    params[:statistic] ||= "Yield"
+    
     crop = params[:crop]
     stat = params[:statistic]
     
