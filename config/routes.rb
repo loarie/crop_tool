@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'reports#index'
   
+  get 'model_parameters_estimate', to: 'model_parameters#estimate'
   post 'twilio/voice' => 'twilio#voice'
   post 'notifications/notify' => 'notifications#notify'
   post 'text', to: 'text_messages#create'

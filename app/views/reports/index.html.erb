@@ -5,8 +5,9 @@
 <table>
   <thead>
     <tr>
-      <th>Identity</th>
-      <th>Destination</th>
+      <th>To</th>
+      <th>From</th>
+      <th>Date</th>
       <th>Country</th>
       <th>City</th>
       <th>Lat</th>
@@ -28,8 +29,9 @@
     <% if @reports.count > 0 %>
       <% @reports.each do |report| %>
         <tr>
-          <td><%= report.identity %></td>
           <td><%= report.destination %></td>
+          <td><%= report.identity %></td>
+          <td><%= report.created_at %></td>
           <td><%= report.country %></td>
           <td><%= report.city %></td>
           <td><%= report.lat.round(2) %></td>
@@ -51,9 +53,8 @@
     <% end %>
   </tbody>
 </table>
-
-Estimate: <%= @estimate =%>
-
 <br>
 
 <%= link_to 'New Report', new_report_path %>
+<br>
+<%= link_to 'Get Estimate', model_parameters_estimate_path %>

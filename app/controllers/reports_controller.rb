@@ -12,7 +12,6 @@ class ReportsController < ApplicationController
     stat = params[:statistic]
     
     @reports = Report.where(crop: crop.capitalize, statistic: stat.capitalize)
-    @estimate = TextMessage.stats([crop,stat,"Thies"])
     
     #@values = @reports.map(&:value)
     #@mean = ::CropModule::Maths.mean(@values)
@@ -39,7 +38,8 @@ class ReportsController < ApplicationController
   # POST /reports.json
   def create
     @report = Report.new(report_params)
-    coords = TextMessage.get_coords(@report.city)
+    city = report_params[:city]
+    coords = TextMessage.get_coords(city)
     @report.country = coords[:country]
     @report.lat = coords[:lat]
     @report.lon = coords[:lon]
@@ -48,7 +48,6 @@ class ReportsController < ApplicationController
     @report.prec = climate[:prec]
     @report.identity = request.remote_ip
     @report.destination = "web"
-      
     respond_to do |format|
       if @report.save
         format.html { redirect_to @report, notice: 'Report was successfully created.' }
@@ -92,6 +91,6 @@ class ReportsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def report_params
-      params.require(:report).permit(:value, :crop, :statistic)
+      params.require(:report).permit(:value, :crop, :statistic, :city)
     end
 end

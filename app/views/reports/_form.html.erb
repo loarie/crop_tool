@@ -17,11 +17,11 @@
   </div>
   <div class="field">
     <%= f.label :crop %><br>
-    <%= f.text_field :crop %>
+    <%= select(:report, :crop, options_for_select([['Maize'],['Millet'],['Sorghum'],['Fonio'],['Cereals, nes'],['Potatoes'],['Sweet potatoes'],['Cassava'],['Sugar cane'],['Cow peas, dry'],['Pulses, nes'],['Cashew nuts, with shell'],['Nuts, nes'],['Groundnuts, with shell'],['Coconuts'],['Oil, palm fruit'],['Sesame seed'],['Melonseed'],['Seed cotton'],['Cabbages and other brassicas'],['Tomatoes'],['Pumpkins, squash and gourds'],['Eggplants (aubergines)'],['Onions, dry'],['Beans, green'],['Carrots and turnips'],['Okra'],['Vegetables, fresh nes'],['Bananas'],['Oranges'],['Watermelons'],['Mangoes, mangosteens, guavas'],['Fruit, tropical fresh nes'],['Fruit, fresh nes'],['Chillies and peppers, dry'],['Cereals,Total'],['Roots and Tubers,Total'],['Pulses,Total'],['Treenuts,Total'],['Oilcrops Primary'],['Vegetables Primary'],['Fibre Crops Primary'],['Vegetables&Melons, Total'],['Fruit excl Melons,Total'],['Citrus Fruit,Total'],['Coarse Grain, Total'],['Cereals (Rice Milled Eqv)'],['Oilcakes Equivalent']])) %>
   </div>
   <div class="field">
     <%= f.label :statistic %><br>
-    <%= f.text_field :statistic %>
+    <%= select(:report, :statistic, options_for_select([['Yield'], ['Planting'], ['Harvest']])) %>
   </div>
   <div class="field">
     <%= f.label :city %><br>

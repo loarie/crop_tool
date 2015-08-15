@@ -1,8 +1,38 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Value:</strong>
-  <%= @report.value %>
+  <strong>To:</strong>
+  <%= @report.destination %>
+</p>
+
+<p>
+  <strong>From:</strong>
+  <%= @report.identity %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @report.created_at %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @report.country %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @report.city %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @report.lat %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @report.lon %>
 </p>
 
 <p>
@@ -13,6 +43,21 @@
 <p>
   <strong>Statistic:</strong>
   <%= @report.statistic %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @report.value %>
+</p>
+
+<p>
+  <strong>Temp:</strong>
+  <%= @report.value %>
+</p>
+
+<p>
+  <strong>Prec:</strong>
+  <%= @report.value %>
 </p>
 
 <%= link_to 'Edit', edit_report_path(@report) %> |
