@@ -106,8 +106,6 @@ class TextMessage < ActiveRecord::Base
     #year_global_prec = get_wb_clim(var = "pr", country = :senegal, span = "year", ind = 2012)
     #return {temp: year_global_temp, prec: year_global_prec}
     
-    lat = 15.156974
-    lon = -15.249023
     climate = Climate.where("(lat - 0.25) < ? AND (lat + 0.25) > ? AND (lon - 0.25) < ? AND (lon + 0.25) > ?", lat, lat, lon, lon).first
     return {temp: climate.temp/10.to_f, prec: climate.prec/10.to_f}
     
