@@ -4,7 +4,7 @@ class TextMessage < ActiveRecord::Base
   after_create :process
 
   COUNTRY_HASH = {senegal: {wb: 'SEN', go: 'sn', pretty: 'Senegal'}}
-  CROPS = ["maize","millet"]
+  CROPS = ["Maize","Millet","Sorghum","Fonio","Cereals, nes","Potatoes","Sweet potatoes","Cassava","Sugar cane","Cow peas, dry","Pulses, nes","Cashew nuts, with shell","Nuts, nes","Groundnuts, with shell","Coconuts","Oil, palm fruit","Sesame seed","Melonseed","Seed cotton","Cabbages and other brassicas","Tomatoes","Pumpkins, squash and gourds","Eggplants (aubergines)","Onions, dry","Beans, green","Carrots and turnips","Okra","Vegetables, fresh nes","Bananas","Oranges","Watermelons","Mangoes, mangosteens, guavas","Fruit, tropical fresh nes","Fruit, fresh nes","Chillies and peppers, dry","Cereals,Total","Roots and Tubers,Total","Pulses,Total","Treenuts,Total","Oilcrops Primary","Vegetables Primary","Fibre Crops Primary","Vegetables&Melons, Total","Fruit excl Melons,Total","Citrus Fruit,Total","Coarse Grain, Total","Cereals (Rice Milled Eqv)","Oilcakes Equivalent"]
   STATISTICS = ["yield","planting","harvest"]
   
   def process
