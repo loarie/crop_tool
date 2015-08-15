@@ -43,7 +43,12 @@ class ReportsController < ApplicationController
     @report.country = coords[:country]
     @report.lat = coords[:lat]
     @report.lon = coords[:lon]
-    
+    climate = TextMessage.get_climate(coords[:lat], coords[:lon])
+    @report.temp = climate[:temp]
+    @report.prec = climate[:prec]
+    @report.identity = request.remote_ip
+    @report.destination = "web"
+      
     respond_to do |format|
       if @report.save
         format.html { redirect_to @report, notice: 'Report was successfully created.' }
