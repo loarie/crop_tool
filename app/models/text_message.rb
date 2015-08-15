@@ -51,7 +51,7 @@ class TextMessage < ActiveRecord::Base
           Report.create(country: coords[:country], city: city.capitalize, lat: coords[:lat], lon: coords[:lon], crop: crop.capitalize, statistic: stat.capitalize, value: val, temp: climate[:temp], prec: climate[:prec], identity: from, destination: to)
           new_sentence = "Thank you for submitting your request of #{body}"
           
-          update_model(coords[:country], crop, stat)
+          update_model(crop, stat)
           
         end
       end
@@ -69,14 +69,14 @@ class TextMessage < ActiveRecord::Base
     )
   end
   
-  def update_model(country, crop, stat)
+  def update_model(crop, stat)
     #get_priors
-    mp = ModelParameter.where(country: country, crop: crop.capitalize, statistic: stat.capitalize).first
+    mp = ModelParameter.where(crop: crop.capitalize, statistic: stat.capitalize).first
     priors = JSON.parse mp.priors
     b0 = priors["b0"].to_s.gsub("[","c(").gsub("]",")")
     
     #get_data
-    data = Report.where(country: country, crop: crop.capitalize, statistic: stat.capitalize).all
+    data = Report.where(crop: crop.capitalize, statistic: stat.capitalize).all
     y = data.map(&:value).to_s.gsub("[","c(").gsub("]",")")
     x1 = data.map(&:temp).to_s.gsub("[","c(").gsub("]",")")
     x2 = data.map(&:prec).to_s.gsub("[","c(").gsub("]",")")
@@ -183,7 +183,7 @@ class TextMessage < ActiveRecord::Base
     climate = TextMessage.get_climate(coords[:lat], coords[:lon])
     
     #get the model params
-    model_params = ModelParameter.where(country: coords[:country], crop: crop.capitalize, statistic: stat.capitalize).first
+    model_params = ModelParameter.where(crop: crop.capitalize, statistic: stat.capitalize).first
     
     #estimate values based on location and model params
     beta = (JSON.parse model_params.estimated_params)["beta"]
