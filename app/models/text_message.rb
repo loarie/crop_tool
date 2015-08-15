@@ -4,21 +4,21 @@ class TextMessage < ActiveRecord::Base
   after_create :process
 
   COUNTRY_HASH = {
-    senegal: {wb: 'SEN', go: 'sn', pretty: 'Senegal'}
-    cabo_verde: {wb: 'CPV', go: 'cp', pretty: 'Cabo Verde'}
-    benin: {wb: 'CPV', go: 'cp', pretty: "Benin"}
-    gambia: {wb: 'CPV', go: 'cp', pretty: "Gambia"}
-    ghana: {wb: 'CPV', go: 'cp', pretty: "Ghana"}
-    guinea: {wb: 'CPV', go: 'cp', pretty: "Guinea"}
-    ivory_coast: {wb: 'CPV', go: 'cp', pretty: "Côte d'Ivoire"}
-    liberia: {wb: 'CPV', go: 'cp', pretty: "Liberia"}
-    mali: {wb: 'CPV', go: 'cp', pretty: "Mali"}
-    mauritania: {wb: 'CPV', go: 'cp', pretty: "Mauritania"}
-    niger: {wb: 'CPV', go: 'cp', pretty: "Niger"}
-    nigeria: {wb: 'CPV', go: 'cp', pretty: "Nigeria"}
-    guinea_bissau: {wb: 'CPV', go: 'cp', pretty: "Guinea-Bissau"}
-    sierra_leopne: {wb: 'CPV', go: 'cp', pretty: "Sierra Leone"}
-    togo: {wb: 'CPV', go: 'cp', pretty: "Togo"}
+    senegal: {wb: 'SEN', go: 'sn', pretty: 'Senegal'},
+    cabo_verde: {wb: 'CPV', go: 'cp', pretty: 'Cabo Verde'},
+    benin: {wb: 'CPV', go: 'cp', pretty: "Benin"},
+    gambia: {wb: 'CPV', go: 'cp', pretty: "Gambia"},
+    ghana: {wb: 'CPV', go: 'cp', pretty: "Ghana"},
+    guinea: {wb: 'CPV', go: 'cp', pretty: "Guinea"},
+    ivory_coast: {wb: 'CPV', go: 'cp', pretty: "Côte d'Ivoire"},
+    liberia: {wb: 'CPV', go: 'cp', pretty: "Liberia"},
+    mali: {wb: 'CPV', go: 'cp', pretty: "Mali"},
+    mauritania: {wb: 'CPV', go: 'cp', pretty: "Mauritania"},
+    niger: {wb: 'CPV', go: 'cp', pretty: "Niger"},
+    nigeria: {wb: 'CPV', go: 'cp', pretty: "Nigeria"},
+    guinea_bissau: {wb: 'CPV', go: 'cp', pretty: "Guinea-Bissau"},
+    sierra_leopne: {wb: 'CPV', go: 'cp', pretty: "Sierra Leone"},
+    togo: {wb: 'CPV', go: 'cp', pretty: "Togo"},
     burkina_faso: {wb: 'CPV', go: 'cp', pretty: "Burkina Faso"}
   }
   CROPS = ["Maize","Millet","Sorghum","Fonio","Cereals, nes","Potatoes","Sweet potatoes","Cassava","Sugar cane","Cow peas, dry","Pulses, nes","Cashew nuts, with shell","Nuts, nes","Groundnuts, with shell","Coconuts","Oil, palm fruit","Sesame seed","Melonseed","Seed cotton","Cabbages and other brassicas","Tomatoes","Pumpkins, squash and gourds","Eggplants (aubergines)","Onions, dry","Beans, green","Carrots and turnips","Okra","Vegetables, fresh nes","Bananas","Oranges","Watermelons","Mangoes, mangosteens, guavas","Fruit, tropical fresh nes","Fruit, fresh nes","Chillies and peppers, dry","Cereals,Total","Roots and Tubers,Total","Pulses,Total","Treenuts,Total","Oilcrops Primary","Vegetables Primary","Fibre Crops Primary","Vegetables&Melons, Total","Fruit excl Melons,Total","Citrus Fruit,Total","Coarse Grain, Total","Cereals (Rice Milled Eqv)","Oilcakes Equivalent"]
