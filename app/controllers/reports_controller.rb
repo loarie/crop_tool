@@ -8,7 +8,7 @@ class ReportsController < ApplicationController
     stat = params[:statistic]
     
     @reports = Report.where(crop: crop.capitalize, statistic: stat.capitalize)
-    #@estimate = TextMessage.stats([crop,stat,"zagne"])
+    @estimate = TextMessage.stats([crop,stat,"zagne"])
     
     #@values = @reports.map(&:value)
     #@mean = ::CropModule::Maths.mean(@values)
