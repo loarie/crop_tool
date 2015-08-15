@@ -5,6 +5,8 @@
 <table>
   <thead>
     <tr>
+      <th>Identity</th>
+      <th>Destination</th>
       <th>Country</th>
       <th>City</th>
       <th>Lat</th>
@@ -25,15 +27,17 @@
   <tbody>
     <% @reports.each do |report| %>
       <tr>
+        <td><%= report.identity %></td>
+        <td><%= report.destination %></td>
         <td><%= report.country %></td>
         <td><%= report.city %></td>
-        <td><%= report.lat %></td>
-        <td><%= report.lon %></td>
+        <td><%= report.lat.round(2) %></td>
+        <td><%= report.lon.round(2) %></td>
         <td><%= report.crop %></td>
         <td><%= report.statistic %></td>
-        <td><%= report.value %></td>
-        <td><%= report.temp %></td>
-        <td><%= report.prec %></td>
+        <td><%= report.value.round(2) %></td>
+        <td><%= report.temp.round(2) %></td>
+        <td><%= report.prec.round(2) %></td>
         <td><%= link_to 'Show', report %></td>
         <td><%= link_to 'Edit', edit_report_path(report) %></td>
         <td><%= link_to 'Destroy', report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
