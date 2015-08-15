@@ -20,7 +20,7 @@ class TextMessage < ActiveRecord::Base
       else
         if code.count == 3 #request
           
-          new_sentence = "Our #{code[1]} estimate for #{code[0]} is #{stats(code)}"
+          new_sentence = "Our #{code[1]} estimate for #{code[0]} is #{TextMessage.stats(code)}"
           
         else #reporting data
           crop = code[0]
@@ -42,26 +42,6 @@ class TextMessage < ActiveRecord::Base
     else
       send_outgoing
     end
-  end
-  
-  def stats(arr)
-    crop = arr[0]
-    stat = arr[1]
-    city = arr[2]
-    
-    #Get the climate data
-    coords = get_coords(city)
-    climate = get_climate(coords["lat"], coords["lon"])
-    
-    #get the model params
-    model_params = ModelParameter.where(country: COUNTRY_HASH[:senegal][:pretty], crop: crop.capitalize, statistic: stat.capitalize).first
-    
-    #estimate values based on location and model params
-    beta = (JSON.parse model_params.estimated_params)["beta"]
-    x_vals = [1.0, climate[:temp], climate[:prec], climate[:temp] ** 2, climate[:prec] ** 2]
-    @mean = (0...beta.count).inject(0) {|r, i| r + beta[i]*x_vals[i]}
-    @sd = Math.sqrt( (JSON.parse model_params.estimated_params)["sigma2"])
-    return "#{(@mean).round} +/- #{(@sd).round} kg/ha"
   end
   
   def send_outgoing
@@ -167,6 +147,26 @@ class TextMessage < ActiveRecord::Base
     parsed_json = JSON.parse(json_string)
     ind = ind - 1901 if span == "year"
     value = parsed_json[ind]["data"]
+  end
+  
+  def self.stats(arr)
+    crop = arr[0]
+    stat = arr[1]
+    city = arr[2]
+    
+    #Get the climate data
+    coords = get_coords(city)
+    climate = get_climate(coords["lat"], coords["lon"])
+    
+    #get the model params
+    model_params = ModelParameter.where(country: COUNTRY_HASH[:senegal][:pretty], crop: crop.capitalize, statistic: stat.capitalize).first
+    
+    #estimate values based on location and model params
+    beta = (JSON.parse model_params.estimated_params)["beta"]
+    x_vals = [1.0, climate[:temp], climate[:prec], climate[:temp] ** 2, climate[:prec] ** 2]
+    @mean = (0...beta.count).inject(0) {|r, i| r + beta[i]*x_vals[i]}
+    @sd = Math.sqrt( (JSON.parse model_params.estimated_params)["sigma2"])
+    return "#{(@mean).round} +/- #{(@sd).round} kg/ha"
   end
   
   private
