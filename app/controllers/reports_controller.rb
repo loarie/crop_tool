@@ -39,7 +39,11 @@ class ReportsController < ApplicationController
   # POST /reports.json
   def create
     @report = Report.new(report_params)
-
+    coords = TextMessage.get_coords(@report.city)
+    @report.country = coords[:country]
+    @report.lat = coords[:lat]
+    @report.lon = coords[:lon]
+    
     respond_to do |format|
       if @report.save
         format.html { redirect_to @report, notice: 'Report was successfully created.' }
