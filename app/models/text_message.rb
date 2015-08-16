@@ -190,6 +190,7 @@ class TextMessage < ActiveRecord::Base
     beta = (JSON.parse model_params.estimated_params)["beta"]
     x_vals = [1.0, climate[:temp], climate[:prec], climate[:temp] ** 2, climate[:prec] ** 2, 2015]
     @mean = (0...beta.count).inject(0) {|r, i| r + beta[i]*x_vals[i]}
+    @mean = @mean < 0 ? 0 : @mean
     @sd = Math.sqrt( (JSON.parse model_params.estimated_params)["sigma2"])
     return "#{(@mean).round} +/- #{(@sd).round} kg/ha"
   end
