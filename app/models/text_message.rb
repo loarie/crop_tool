@@ -94,15 +94,15 @@ class TextMessage < ActiveRecord::Base
   end
   
   def self.get_coords(city)
-    #google_key = Rails.application.secrets.google_key
+    google_key = Rails.application.secrets.google_key
     ##url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{city}&region=#{COUNTRY_HASH[:senegal][:go]}&key=#{google_key}"
-    #url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{city}&key=#{google_key}"
-    #json_string = open(url).read
-    #parsed_json = JSON.parse(json_string)
-    #country = parsed_json["results"][0]["address_components"][3]["long_name"]
-    #coords = parsed_json["results"][0]["geometry"]["location"]
-    #return {lat: coords["lat"], lon: coords["lng"], country: country}
-    return {lat: 5.6, lon: -0.19, country: "Ghana"}
+    url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{city}&key=#{google_key}"
+    json_string = open(url).read
+    parsed_json = JSON.parse(json_string)
+    country = parsed_json["results"][0]["address_components"][3]["long_name"]
+    coords = parsed_json["results"][0]["geometry"]["location"]
+    return {lat: coords["lat"], lon: coords["lng"], country: country}
+    #return {lat: 5.6, lon: -0.19, country: "Ghana"}
   end
   
   def self.get_climate(lat, lon)
