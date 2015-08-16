@@ -1,3 +1,15 @@
+<div class="center hero-unit">
+  <h1>Welcome to the Sample App</h1>
+
+  <h2>
+    This is the home page for the
+    <a href="http://railstutorial.org/">Ruby on Rails Tutorial</a>
+    sample application.
+  </h2>
+
+  <%= link_to "Sign up now!", '#', class: "btn btn-large btn-primary" %>
+</div>
+
   <%= form_tag("/model_parameters_estimate", method: "get") do %>
     <%= select_tag(:crop, options_for_select([['Maize'],['Millet'],['Sorghum'],['Fonio'],['Cereals, nes'],['Potatoes'],['Sweet potatoes'],['Cassava'],['Sugar cane'],['Cow peas, dry'],['Pulses, nes'],['Cashew nuts, with shell'],['Nuts, nes'],['Groundnuts, with shell'],['Coconuts'],['Oil, palm fruit'],['Sesame seed'],['Melonseed'],['Seed cotton'],['Cabbages and other brassicas'],['Tomatoes'],['Pumpkins, squash and gourds'],['Eggplants (aubergines)'],['Onions, dry'],['Beans, green'],['Carrots and turnips'],['Okra'],['Vegetables, fresh nes'],['Bananas'],['Oranges'],['Watermelons'],['Mangoes, mangosteens, guavas'],['Fruit, tropical fresh nes'],['Fruit, fresh nes'],['Chillies and peppers, dry'],['Cereals,Total'],['Roots and Tubers,Total'],['Pulses,Total'],['Treenuts,Total'],['Oilcrops Primary'],['Vegetables Primary'],['Fibre Crops Primary'],['Vegetables&Melons, Total'],['Fruit excl Melons,Total'],['Citrus Fruit,Total'],['Coarse Grain, Total'],['Cereals (Rice Milled Eqv)'],['Oilcakes Equivalent']], :selected => params[:crop])) %>
     <%= select_tag(:statistic, options_for_select([['Yield'], ['Planting'], ['Harvest']])) %>
