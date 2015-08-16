@@ -190,7 +190,7 @@ class TextMessage < ActiveRecord::Base
     
     #estimate values based on location and model params
     beta = (JSON.parse model_params.estimated_params)["beta"]
-    log_prec = = Math.log(climate[:prec])
+    log_prec = Math.log(climate[:prec])
     x_vals = [1.0, climate[:temp], log_prec, climate[:temp] ** 2, log_prec ** 2, 115]
     log_mean = (0...beta.count).inject(0) {|r, i| r + beta[i]*x_vals[i]}
     @mean = Math.exp(log_mean)
