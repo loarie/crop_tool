@@ -1,4 +1,4 @@
-<%= form_for(@report) do |f| %>
+<%= form_for(@report, class: "form-inline", role: "form") do |f| %>
   <% if @report.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
@@ -11,23 +11,23 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :value %><br>
     <%= f.text_field :value %>
   </div>
-  <div class="field">
+  <div class="form-group">
     <%= f.label :crop %><br>
-    <%= select(:report, :crop, options_for_select([['Maize'],['Millet'],['Sorghum'],['Fonio'],['Cereals, nes'],['Potatoes'],['Sweet potatoes'],['Cassava'],['Sugar cane'],['Cow peas, dry'],['Pulses, nes'],['Cashew nuts, with shell'],['Nuts, nes'],['Groundnuts, with shell'],['Coconuts'],['Oil, palm fruit'],['Sesame seed'],['Melonseed'],['Seed cotton'],['Cabbages and other brassicas'],['Tomatoes'],['Pumpkins, squash and gourds'],['Eggplants (aubergines)'],['Onions, dry'],['Beans, green'],['Carrots and turnips'],['Okra'],['Vegetables, fresh nes'],['Bananas'],['Oranges'],['Watermelons'],['Mangoes, mangosteens, guavas'],['Fruit, tropical fresh nes'],['Fruit, fresh nes'],['Chillies and peppers, dry'],['Cereals,Total'],['Roots and Tubers,Total'],['Pulses,Total'],['Treenuts,Total'],['Oilcrops Primary'],['Vegetables Primary'],['Fibre Crops Primary'],['Vegetables&Melons, Total'],['Fruit excl Melons,Total'],['Citrus Fruit,Total'],['Coarse Grain, Total'],['Cereals (Rice Milled Eqv)'],['Oilcakes Equivalent']])) %>
+    <%= select(:report, :crop, options_for_select([['Maize'],['Millet'],['Sorghum'],['Fonio'],['Cereals, nes'],['Potatoes'],['Sweet potatoes'],['Cassava'],['Sugar cane'],['Cow peas, dry'],['Pulses, nes'],['Cashew nuts, with shell'],['Nuts, nes'],['Groundnuts, with shell'],['Coconuts'],['Oil, palm fruit'],['Sesame seed'],['Melonseed'],['Seed cotton'],['Cabbages and other brassicas'],['Tomatoes'],['Pumpkins, squash and gourds'],['Eggplants (aubergines)'],['Onions, dry'],['Beans, green'],['Carrots and turnips'],['Okra'],['Vegetables, fresh nes'],['Bananas'],['Oranges'],['Watermelons'],['Mangoes, mangosteens, guavas'],['Fruit, tropical fresh nes'],['Fruit, fresh nes'],['Chillies and peppers, dry'],['Cereals,Total'],['Roots and Tubers,Total'],['Pulses,Total'],['Treenuts,Total'],['Oilcrops Primary'],['Vegetables Primary'],['Fibre Crops Primary'],['Vegetables&Melons, Total'],['Fruit excl Melons,Total'],['Citrus Fruit,Total'],['Coarse Grain, Total'],['Cereals (Rice Milled Eqv)'],['Oilcakes Equivalent']]), {}, {style: "width:auto;", class: "form-control"}) %>
   </div>
-  <div class="field">
+  <div class="form-group">
     <%= f.label :statistic %><br>
-    <%= select(:report, :statistic, options_for_select([['Yield'], ['Planting'], ['Harvest']])) %>
+    <%= select(:report, :statistic, options_for_select([['Yield'], ['Planting'], ['Harvest']]), {}, {style: "width:auto;", class: "form-control"}) %>
   </div>
-  <div class="field">
+  <div class="form-group">
     <%= f.label :city %><br>
     <%= f.text_field :city %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit  'Submit', :class => 'btn btn-primary' %>
   </div>
 <% end %>

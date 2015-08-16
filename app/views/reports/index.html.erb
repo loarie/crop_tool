@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Search Reports from Farmers</h1>
+<h1>Reports from Farmers</h1>
 
   <%= form_tag("/reports", method: "get", class: "form-inline", role: "form") do %>
     <div class="form-group">
@@ -14,7 +14,7 @@
     <%= submit_tag("Search", class: "btn btn-primary") %>
   <% end %>
 
-    <%= link_to 'New Report', new_report_path %> | <%= link_to 'Get Estimate', model_parameters_estimate_path %>
+    <%= link_to 'Submit Report', new_report_path %> | <%= link_to 'Request Model Estimates', model_parameters_estimate_path %>
 
 <table class="table">
   <thead>
@@ -53,7 +53,7 @@
       <% end %>
     <% else %>
      <tr>
-       <td>No reports</td>
+       <td>No reports matching that search criteria</td>
     </tr> 
     <% end %>
   </tbody>
