@@ -22,10 +22,7 @@ class ReportsController < ApplicationController
 
   # GET /reports/new
   def new
-    params[:crop] ||= "Maize"
-    params[:statistic] ||= "Yield"
-    
-    @report = Report.new(crop: params[:crop], statistic: params[:statistic])
+    @report = Report.new
   end
 
   # GET /reports/1/edit
