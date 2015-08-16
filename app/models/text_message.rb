@@ -77,9 +77,11 @@ class TextMessage < ActiveRecord::Base
     
     #get_data
     data = Report.where(crop: crop.capitalize, statistic: stat.capitalize).all
-    y = data.map(&:value).to_s.gsub("[","c(").gsub("]",")")
+    exp_y = data.map(&:value)
+    y = Math.log(exp_y).to_s.gsub("[","c(").gsub("]",")") #log transform
     x1 = data.map(&:temp).to_s.gsub("[","c(").gsub("]",")")
-    x2 = data.map(&:prec).to_s.gsub("[","c(").gsub("]",")")
+    exp_x2 = data.map(&:prec)
+    x2 = Math.log(exp_x2).to_s.gsub("[","c(").gsub("]",")") #log transform
     
     #update the model
     input_params = {'b0' => b0, 'Vbcoef' => priors["Vbcoef"], 's1' => priors["s1"], 's2' => priors["s2"], 'y' => y, 'x1' => x1, 'x2' => x2}
@@ -188,10 +190,13 @@ class TextMessage < ActiveRecord::Base
     
     #estimate values based on location and model params
     beta = (JSON.parse model_params.estimated_params)["beta"]
-    x_vals = [1.0, climate[:temp], climate[:prec], climate[:temp] ** 2, climate[:prec] ** 2, 2015]
-    @mean = (0...beta.count).inject(0) {|r, i| r + beta[i]*x_vals[i]}
+    log_prec = = Math.log(climate[:prec])
+    x_vals = [1.0, climate[:temp], log_prec, climate[:temp] ** 2, log_prec ** 2, 115]
+    log_mean = (0...beta.count).inject(0) {|r, i| r + beta[i]*x_vals[i]}
+    @mean = Math.exp(log_mean)
     @mean = @mean < 0 ? 0 : @mean
-    @sd = Math.sqrt( (JSON.parse model_params.estimated_params)["sigma2"])
+    log_sd = Math.sqrt( (JSON.parse model_params.estimated_params)["sigma2"])
+    @sd = Math.exp(log_sd)
     return "#{(@mean).round} +/- #{(@sd).round} kg/ha"
   end
   
