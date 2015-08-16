@@ -45,7 +45,6 @@ class ReportsController < ApplicationController
     @report.destination = "web"
     respond_to do |format|
       if @report.save
-        TextMessage.update_model(crop, stat)
         format.html { redirect_to @report, notice: 'Report was successfully created.' }
         format.json { render :show, status: :created, location: @report }
       else
@@ -60,6 +59,7 @@ class ReportsController < ApplicationController
   def update
     respond_to do |format|
       if @report.update(report_params)
+        TextMessage.update_model(@report.crop, @report.statistic)
         format.html { redirect_to @report, notice: 'Report was successfully updated.' }
         format.json { render :show, status: :ok, location: @report }
       else
