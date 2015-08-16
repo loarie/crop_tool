@@ -51,7 +51,7 @@ class TextMessage < ActiveRecord::Base
           Report.create(country: coords[:country], city: city.capitalize, lat: coords[:lat], lon: coords[:lon], crop: crop.capitalize, statistic: stat.capitalize, value: val, temp: climate[:temp], prec: climate[:prec], identity: from, destination: to)
           new_sentence = "Thank you for submitting your request of #{body}"
           
-          update_model(crop, stat)
+          TextMessage.update_model(crop, stat)
           
         end
       end
@@ -69,7 +69,7 @@ class TextMessage < ActiveRecord::Base
     )
   end
   
-  def update_model(crop, stat)
+  def self.update_model(crop, stat)
     #get_priors
     mp = ModelParameter.where(crop: crop.capitalize, statistic: stat.capitalize).first
     priors = JSON.parse mp.priors

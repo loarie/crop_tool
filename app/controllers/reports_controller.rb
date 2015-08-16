@@ -13,11 +13,6 @@ class ReportsController < ApplicationController
     
     @reports = Report.where(crop: crop.capitalize, statistic: stat.capitalize)
     
-    #@values = @reports.map(&:value)
-    #@mean = ::CropModule::Maths.mean(@values)
-    #@mean = 0 if @mean.nan?
-    #@sd = ::CropModule::Maths.standard_deviation(@values)
-    #@sd = 0 if @sd.nan?
   end
 
   # GET /reports/1
@@ -50,6 +45,7 @@ class ReportsController < ApplicationController
     @report.destination = "web"
     respond_to do |format|
       if @report.save
+        TextMessage.update_model(crop, stat)
         format.html { redirect_to @report, notice: 'Report was successfully created.' }
         format.json { render :show, status: :created, location: @report }
       else
