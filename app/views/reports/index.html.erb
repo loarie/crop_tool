@@ -14,7 +14,7 @@
     <%= submit_tag("Search", class: "btn btn-primary") %>
   <% end %>
 
-    <%= link_to 'Submit Report', new_report_path %> | <%= link_to 'Request Model Estimates', model_parameters_estimate_path %>
+    <%= link_to 'Submit Report', new_report_path(:crop => params[:crop]) %> | <%= link_to 'Request Model Estimates', model_parameters_estimate_path %>
 
 <table class="table">
   <thead>
