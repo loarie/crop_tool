@@ -78,10 +78,10 @@ class TextMessage < ActiveRecord::Base
     #get_data
     data = Report.where(crop: crop.capitalize, statistic: stat.capitalize).all
     exp_y = data.map(&:value)
-    y = Math.log(exp_y).to_s.gsub("[","c(").gsub("]",")") #log transform
+    y = exp_y.map{|v| Math.log(v)}.to_s.gsub("[","c(").gsub("]",")") #log transform
     x1 = data.map(&:temp).to_s.gsub("[","c(").gsub("]",")")
     exp_x2 = data.map(&:prec)
-    x2 = Math.log(exp_x2).to_s.gsub("[","c(").gsub("]",")") #log transform
+    x2 = exp_x2.map{|v| Math.log(v)}.to_s.gsub("[","c(").gsub("]",")") #log transform
     
     #update the model
     input_params = {'b0' => b0, 'Vbcoef' => priors["Vbcoef"], 's1' => priors["s1"], 's2' => priors["s2"], 'y' => y, 'x1' => x1, 'x2' => x2}
@@ -98,13 +98,13 @@ class TextMessage < ActiveRecord::Base
   def self.get_coords(city)
     google_key = Rails.application.secrets.google_key
     ##url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{city}&region=#{COUNTRY_HASH[:senegal][:go]}&key=#{google_key}"
-    url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{city}&key=#{google_key}"
-    json_string = open(url).read
-    parsed_json = JSON.parse(json_string)
-    country = parsed_json["results"][0]["address_components"][3]["long_name"]
-    coords = parsed_json["results"][0]["geometry"]["location"]
-    return {lat: coords["lat"], lon: coords["lng"], country: country}
-    #return {lat: 5.6, lon: -0.19, country: "Ghana"}
+    #url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{city}&key=#{google_key}"
+    #json_string = open(url).read
+    #parsed_json = JSON.parse(json_string)
+    #country = parsed_json["results"][0]["address_components"][3]["long_name"]
+    #coords = parsed_json["results"][0]["geometry"]["location"]
+    #return {lat: coords["lat"], lon: coords["lng"], country: country}
+    return {lat: 14.7645042, lon: -17.3660286, country: "Senegal"}
   end
   
   def self.get_climate(lat, lon)
