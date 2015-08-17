@@ -136,7 +136,7 @@ figcaption {
 }
 
 .hero-unit {
-  background-image:url('background.png');
+  background-image:url(image_path('background.png'));
   background-size:cover;
   background-color: #EEEEEE;
   height:300px;
