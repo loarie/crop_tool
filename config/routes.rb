@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
+  
+  get 'static_pages/home'
+  get 'static_pages/about'
+
   resources :reports
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'reports#index'
+  root 'static_pages#home'
   
   get 'model_parameters_estimate', to: 'model_parameters#estimate'
   post 'twilio/voice' => 'twilio#voice'

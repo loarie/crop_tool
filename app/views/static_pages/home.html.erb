@@ -1,0 +1,31 @@
+<div class="hero-unit">
+  <%= image_tag "hero_logo.gif", height: "150", class: "hero-logo"%>
+  <p><a href=<%= model_parameters_estimate_path %> class="btn btn-primary btn-large hero-btn" style="color: #fff;">Get Started</a></p>
+</div>
+
+<figure class="dot">
+  <%= link_to image_tag("request.gif", size: "150x150"), model_parameters_estimate_path %>
+  <a href=<%= model_parameters_estimate_path %>><figcaption>Request Estimates</figcaption></a>
+</figure>
+<figure>
+  <%= link_to (image_tag "report.gif", size: "150x150"), new_report_path %>
+  <a href=<%= new_report_path %>><figcaption>Submit Reports</figcaption></a>
+</figure>
+<figure>
+  <%= link_to (image_tag "learn.gif", size: "150x150"), reports_path %>
+  <a href=<%= reports_path %>><figcaption>Learn More</figcaption></a>
+</figure>
+
+<a class="pest-link">
+  <a href="http://www.inaturalist.org/"><h1>Click here to visit <%= image_tag "pest-tracker.gif", height: "80" %></h1></a>
+</a>
+
+<figure class="dot2">
+     <%= link_to (image_tag 'http://g4aw.spaceoffice.nl/blobs/logo/coraf-wecard-big.gif', height: "100"), "http://www.coraf.org/index.php/en/" %>
+</figure>
+<figure>
+     <%= link_to (image_tag 'http://www.hpsync.org/images/CISLogo_2c_RGB.png', height: "100"), "https://carnegiescience.edu/" %>
+</figure>
+<figure>
+     <%= link_to (image_tag 'http://www.yosemiteexperience.com/wp-content/themes/yosemiteexperience2013/library/images/CAS_logo.jpg', height: "100"), "http://www.calacademy.org/" %>
+</figure>
