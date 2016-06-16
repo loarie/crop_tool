@@ -85,9 +85,9 @@ class TextMessage < ActiveRecord::Base
     
     #update the model
     input_params = {'b0' => b0, 'Vbcoef' => priors["Vbcoef"], 's1' => priors["s1"], 's2' => priors["s2"], 'y1' => y, 'x1' => x1, 'x2' => x2}
-    ocpu_call = Net::HTTP.post_form(URI.parse('http://104.236.132.146/ocpu/library/cropmodel/R/crop_function'), input_params)
+    ocpu_call = Net::HTTP.post_form(URI.parse('http://104.236.101.23/ocpu/library/cropmodel/R/crop_function'), input_params)
     ocpu_dir = ocpu_call.body.split("/")[3]
-    ocpu_response = Net::HTTP.get(URI.parse("http://104.236.132.146/ocpu/tmp/#{ocpu_dir}/stdout/text"))
+    ocpu_response = Net::HTTP.get(URI.parse("http://104.236.101.23/ocpu/tmp/#{ocpu_dir}/stdout/text"))
     output_params = ocpu_response.split("\"")[1].gsub("beta","\"beta\"").gsub("sigma2","\"sigma2\"")
     
     #update database
